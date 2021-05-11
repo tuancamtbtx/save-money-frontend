@@ -34,5 +34,12 @@ export const router: any = {
       file: "/report",
     },
   },
+  permission: {
+    list: {
+      href: "/permissions",
+      as: "/permissions",
+      file: "/permission",
+    },
+  },
 };
 export default router;

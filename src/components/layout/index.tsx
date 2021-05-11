@@ -14,7 +14,8 @@ import {
   OrderedListOutlined,
   SendOutlined,
   AreaChartOutlined,
-  GiftOutlined
+  GiftOutlined,
+  SettingOutlined
 }
   from '@ant-design/icons'
 
@@ -51,7 +52,7 @@ const BaseLayout: React.FC<IProps> = memo(({ title, activeMenuKey, children }: I
                   onClick={() => setCollapsed(true)} />}
             </div>
             <LogoWrapper>
-              <img src='/static/images/icon.jpeg' />
+              <img src='/static/images/icon.webp' />
             </LogoWrapper>
           </div>
           <UserDropDown username="Tuấn Cám" avatar="https://lh3.googleusercontent.com/ogw/ADGmqu_t6ocQYu86ewBqgpoKp35oKKv8l98N6RpyzL_L=s32-c-mo" />
@@ -59,8 +60,8 @@ const BaseLayout: React.FC<IProps> = memo(({ title, activeMenuKey, children }: I
         <Layout style={{ marginTop: '1px' }}>
           <Sider theme="light" trigger={null} collapsible collapsed={collapsed} style={{ padding: '0px' }}>
             <Menu selectedKeys={[activeMenuKey]} theme="light" mode="inline" >
-              <Menu.ItemGroup key="g1" title="Quản Lí">
-                <Menu.Item key="/report">
+            <Menu.ItemGroup key="g2" title="Quản Lí">
+            <Menu.Item key="/report">
                   <Link path='/report'>
                     <a>
                       <AreaChartOutlined />
@@ -90,11 +91,23 @@ const BaseLayout: React.FC<IProps> = memo(({ title, activeMenuKey, children }: I
                       <span className='nav-text'>Gửi Tiền</span>
                     </a>
                   </Link>
-                </Menu.Item>  <Menu.Item key="/users">
+                </Menu.Item>
+            </Menu.ItemGroup>
+              <Menu.ItemGroup key="g1" title="Quản Trị">
+                  
+                <Menu.Item key="/users">
                   <Link path='/users'>
                     <a>
                       <UserOutlined />
                       <span className='nav-text'>Người Dùng</span>
+                    </a>
+                  </Link>
+                </Menu.Item> 
+                <Menu.Item key="/permissions">
+                  <Link path='/permissions'>
+                    <a>
+                      <SettingOutlined />
+                      <span className='nav-text'>Phân Quyền</span>
                     </a>
                   </Link>
                 </Menu.Item> 
