@@ -30,7 +30,7 @@ const BaseLayout: React.FC<IProps> = memo(({ title, activeMenuKey, children }: I
   return (
     <LayoutWrapper>
       <Head>
-        <title>{title} | Smarter CMS</title>
+        <title>{title} | Sổ Tiết Kiệm</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <Layout>
