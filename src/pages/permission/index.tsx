@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 const AppLayout = dynamic(() => import('src/components/layout'), { ssr: true });
 export default function App() {
     return (
-        <AppLayout title={"Users"} activeMenuKey="/users">
+        <AppLayout title={"Khách hàng"} activeMenuKey="/p">
             <Card>
                 <UserContainer />
             </Card>

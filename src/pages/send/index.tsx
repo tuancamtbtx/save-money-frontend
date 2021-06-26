@@ -6,7 +6,7 @@ const AppLayout = dynamic(() => import('src/components/layout'), { ssr: false })
 
 export default function App() {
     return (
-        <AppLayout title={"Send"} activeMenuKey="/send">
+        <AppLayout title={"Gửi tiền"} activeMenuKey="/send">
             <Card>
                 <PermissionContainer />
             </Card>

@@ -6,7 +6,7 @@ const AppLayout = dynamic(() => import('src/components/layout'), { ssr: false })
 
 export default function App() {
     return (
-        <AppLayout title={"Report"} activeMenuKey="/report">
+        <AppLayout title={"Thống kê"} activeMenuKey="/report">
             <Card>
                 <ReportContainer />
             </Card>

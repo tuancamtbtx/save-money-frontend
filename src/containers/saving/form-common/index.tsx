@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
-import { Form, Input } from 'antd'
+import { Form, Input, InputNumber } from 'antd'
 import { IOptionSelect } from 'src/types/shared'
 import Select from 'src/components/elements/select'
-import { IPermission } from 'src/types/permissions'
 interface IProps {
   id: string,
   isUpdate?: boolean,
-  initValue?: IPermission,
+  initValue?: any,
   onSuccess: () => void,
   onFail: () => void
 }
@@ -60,8 +59,8 @@ const PermissionForm: React.FC<IProps> = ({ onSuccess, onFail, id, isUpdate, ini
       onFinishFailed={onFinishFailed}
     >
       <Form.Item
-        label="Name"
-        name="name"
+        label="Khách hàng"
+        name="user"
         rules={[
           {
             required: true,
@@ -69,22 +68,42 @@ const PermissionForm: React.FC<IProps> = ({ onSuccess, onFail, id, isUpdate, ini
           },
         ]}
       >
-        <Input />
-      </Form.Item>
+        <Select
+          defaultValue={isUpdate ? initValue.type : null}
+          placeholder="Chọn khách hàng"
+          list={type}
+        />      </Form.Item>
       <Form.Item
-        label="Type"
+        label="Loại sổ tiết kiệm"
         name="type"
         rules={[
           {
             required: true,
-            message: 'Please input your type!',
+            message: 'Loại sổ tiết kiệm',
           },
         ]}
       >
         <Select
           defaultValue={isUpdate ? initValue.type : null}
-          placeholder="Select type"
+          placeholder="Chọn sổ"
           list={type}
+        />
+      </Form.Item>
+      <Form.Item
+        label="Số tiền"
+        name="money"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your status!',
+          },
+        ]}
+      >
+        <InputNumber
+          style={{
+            width: 200,
+
+          }}
         />
       </Form.Item>
       <Form.Item
@@ -103,7 +122,6 @@ const PermissionForm: React.FC<IProps> = ({ onSuccess, onFail, id, isUpdate, ini
           list={status}
         />
       </Form.Item>
-
     </Form>
 
   )

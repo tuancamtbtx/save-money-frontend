@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { ContentWrapper, HeaderWrapper } from 'src/components/wrapper'
 import { LineChart,BarChart,Bar, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import {Card} from 'antd'
-
+import axios from 'src/utils/axios'
 import FilterForm from './filter'
+import { response } from 'express';
 
 const data = [
     {
@@ -52,7 +53,10 @@ const data = [
 const ReportContainer: React.FC = () => {
     const [logs, setDatas] = useState([]);
     useEffect(() => {
-        setDatas(data)
+      axios.get(' http://dp-smarter-api.tiki.services/revisions/count').then(response => {
+        console.log(response)
+      })
+        // setDatas(data)
     });
     return (
         <ContentWrapper>

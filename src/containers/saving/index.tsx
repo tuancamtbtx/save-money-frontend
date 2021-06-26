@@ -75,7 +75,7 @@ const columns: any[] = [
         }
     },
     {
-        title: 'Created By',
+        title: 'Ngừòi Tạo',
         dataIndex: 'createdBy',
         key: 'createdBy',
         render: name => {
@@ -83,13 +83,13 @@ const columns: any[] = [
         }
     },
     {
-        title: 'Created Time',
+        title: 'Ngày tạo',
         dataIndex: 'createdTime',
         key: 'createdTime',
         render: TimeColumn
     },
     {
-        title: 'Action',
+        title: '',
         dataIndex: 'key',
         key: 'key',
         render: key => {

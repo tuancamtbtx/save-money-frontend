@@ -52,7 +52,7 @@ const BaseLayout: React.FC<IProps> = memo(({ title, activeMenuKey, children }: I
                   onClick={() => setCollapsed(true)} />}
             </div>
             <LogoWrapper>
-              <img src='/static/images/icon.webp' />
+              <img src='https://cdn.icon-icons.com/icons2/2104/PNG/512/bank_icon_129525.png' />
             </LogoWrapper>
           </div>
           <UserDropDown username="Tuấn Cám" avatar="https://lh3.googleusercontent.com/ogw/ADGmqu_t6ocQYu86ewBqgpoKp35oKKv8l98N6RpyzL_L=s32-c-mo" />
@@ -99,7 +99,7 @@ const BaseLayout: React.FC<IProps> = memo(({ title, activeMenuKey, children }: I
                   <Link path='/users'>
                     <a>
                       <UserOutlined />
-                      <span className='nav-text'>Người Dùng</span>
+                      <span className='nav-text'>Quản Trị Viên</span>
                     </a>
                   </Link>
                 </Menu.Item> 
@@ -107,7 +107,7 @@ const BaseLayout: React.FC<IProps> = memo(({ title, activeMenuKey, children }: I
                   <Link path='/permissions'>
                     <a>
                       <SettingOutlined />
-                      <span className='nav-text'>Phân Quyền</span>
+                      <span className='nav-text'>Khách Hàng</span>
                     </a>
                   </Link>
                 </Menu.Item> 

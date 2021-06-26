@@ -72,8 +72,8 @@ export const LayoutWrapper = styled.div`
 `
 export const LogoWrapper = styled.div`
     img {
-      width: 50px;
-      height: 50px;
+      width: 32px;
+      height: 32px;
      margin: 8px 16px 8px 0;
      float: left;
     }
