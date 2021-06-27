@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Form, Input, Button } from 'antd'
-import { LockOutlined, UserOutlined } from '@ant-design/icons'
+import { useStores } from 'src/stores/context'
+import { useObserver } from "mobx-react-lite";
+import redirect from 'src/utils/redirect'
+
 
 const Wrapper = styled.div`
   margin-top: 240px;
@@ -25,16 +28,16 @@ const Wrapper = styled.div`
 
 const LoginContainer: React.FC = () => {
 
-    const onFinish = (values) => {
-        console.log('Success:', values);
+    const onFinish = async (values) => {
+        await authStore.login(values)
+        redirect({}, '/')
     };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
-
-    return (
+    const { authStore } = useStores();
+    return useObserver(() => (
         <Wrapper>
-            <img className='logo' src='https://cdn2.iconfinder.com/data/icons/perfect-flat-icons-2/512/User_login_man_profile_account.png' />
             <Form
                 className='login-form'
                 layout="vertical"
@@ -74,7 +77,6 @@ const LoginContainer: React.FC = () => {
 
             </Form>
         </Wrapper >
-
-    )
+    ))
 }
 export default LoginContainer

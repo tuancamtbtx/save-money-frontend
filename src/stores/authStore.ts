@@ -1,5 +1,5 @@
 import { observable, action } from "mobx";
-// import authApi from "api/authApi";
+import authApi from "src/api/authApi";
 import { saveToken } from "src/utils/auth";
 import Store from "./Store";
 import { IUserInfo } from "src/types/users";
@@ -43,19 +43,19 @@ export default class AuthStore extends Store {
   @action
   async fetchMe(authToken: string): Promise<boolean> {
     this.loadingState.isFetchingMe = true;
-    // const { data, error } = await authApi.me();
-    // if (error) {
-    //   this.errors.me = data.message;
-    //   this.loadingState.isFetchingMe = false;
-    return false;
-    // } else {
-    //   this.errors.me = null;
-    //   this.me = data;
-    //   this.token = authToken;
-    //   this.isAuthenticated = true;
-    //   this.loadingState.isFetchingMe = false;
-    //   return true;
-    // }
+    const { data, error } = await authApi.me();
+    if (error) {
+      this.errors.me = data.message;
+      this.loadingState.isFetchingMe = false;
+      return false;
+    } else {
+      this.errors.me = null;
+      this.me = data;
+      this.token = authToken;
+      this.isAuthenticated = true;
+      this.loadingState.isFetchingMe = false;
+      return true;
+    }
   }
 
   /**
@@ -63,20 +63,20 @@ export default class AuthStore extends Store {
    */
   @action
   async login({ email, password }): Promise<void> {
-    //   this.loadingState.isLoginLoading = true;
-    //   const { data, error } = await authApi.login({ email, password });
-    //   if (error) {
-    //     this.errors.login = data.message;
-    //   } else {
-    //     this.me = data.user;
-    //     this.saveToken(data.access_token);
-    //     this.errors.login = null;
-    //     this.errors.me = null;
-    //     this.isAuthenticated = true;
+    this.loadingState.isLoginLoading = true;
+    const { data, error } = await authApi.login({ email, password });
+    if (error) {
+      this.errors.login = data.message;
+    } else {
+      this.me = data.user;
+      this.saveToken(data.token);
+      this.errors.login = null;
+      this.errors.me = null;
+      this.isAuthenticated = true;
+    }
+    this.loadingState.isLoginLoading = false;
+    return data.user;
   }
-  //   this.loadingState.isLoginLoading = false;
-  //   return data.user;
-  // }
   @action
   async logout(): Promise<void> {
     this.isAuthenticated = false;

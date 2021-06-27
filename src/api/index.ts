@@ -1,5 +1,7 @@
 import userApi from './userApi';
-export { userApi };
+import authApi from './authApi'
+export { userApi,authApi };
 export default {
     userApi,
+    authApi
 };

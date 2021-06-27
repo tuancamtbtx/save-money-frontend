@@ -26,7 +26,7 @@ export const getHeaders:any = authToken => {
   setGlobalAuthToken(currentToken)
   global.headers = {
     ...global.headers,
-    Authorization: 'jwt'//global.authToken,
+    Authorization: global.authToken,
   }
   return global.headers
 }

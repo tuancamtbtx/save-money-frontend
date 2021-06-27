@@ -1,10 +1,14 @@
-import React, { memo, ReactNode, useState } from 'react';
+import React, { memo, ReactNode, useContext, useState } from 'react';
 import { LayoutWrapper, ContentWrapper, LogoWrapper } from 'src/components/wrapper'
 import { Layout, Menu } from 'antd';
 import Head from 'next/head'
 import UserDropDown from './user-dropdown'
 const { Header, Sider, Content, Footer } = Layout
 import { useRouter } from 'next/router'
+import { useStores } from 'src/stores/context'
+import { useObserver } from "mobx-react-lite";
+
+import {StoresContext} from 'src/stores/context'
 import Link from 'src/components/link'
 import {
   MenuFoldOutlined,
@@ -22,12 +26,15 @@ import {
 type IProps = {
   title?: string,
   children?: ReactNode,
-  activeMenuKey?: string
+  activeMenuKey?: string,
 }
-
 const BaseLayout: React.FC<IProps> = memo(({ title, activeMenuKey, children }: IProps) => {
   const [collapsed, setCollapsed] = useState(false)
-  return (
+  const {authStore} = useContext(StoresContext)
+  console.log(authStore)
+  // console.log(authStore.me)
+  console.log(useStores)
+  return useObserver(() =>(
     <LayoutWrapper>
       <Head>
         <title>{title} | Sổ Tiết Kiệm</title>
@@ -127,6 +134,6 @@ const BaseLayout: React.FC<IProps> = memo(({ title, activeMenuKey, children }: I
         </Layout>
       </Layout>
     </LayoutWrapper>
-  )
+  ))
 })
 export default BaseLayout

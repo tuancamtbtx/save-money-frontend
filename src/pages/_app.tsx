@@ -13,6 +13,7 @@ import color from 'src/theme/color'
 import Color from 'color'
 import type { AppProps, AppContext } from 'next/app'
 import { ServerResponse } from 'http';
+import { StoresContext } from 'src/stores/context'
 interface IProps extends AppProps {
     initialMobxStores?: any
 }
@@ -56,7 +57,8 @@ const MyApp = ({ Component, pageProps, initialMobxStores }: IProps) => {
 MyApp.getInitialProps = async (appContext: Context) => {
     const mobxStores = initializeStores()
     appContext.ctx.mobxStores = mobxStores
-    const isAuthenticated: boolean = true
+    console.log(appContext.ctx.mobxStores)
+    const isAuthenticated = mobxStores.authStore.isAuthenticated
     appContext.ctx.isAuthenticated = isAuthenticated
     if (!process.browser) {
         const { host, ...headers } = appContext.ctx.req.headers
@@ -66,11 +68,11 @@ MyApp.getInitialProps = async (appContext: Context) => {
         const authToken = getToken(appContext.ctx.req)
         if (authToken) {
             setGlobalAuthToken(authToken)
-            // await mobxStores.authStore.fetchMe(authToken)
+            await mobxStores.authStore.fetchMe(authToken)
         }
     }
     appContext.ctx.mobxStores = mobxStores
-    // appContext.ctx.isAuthenticated = mobxStores.authStore.isAuthenticated
+    appContext.ctx.isAuthenticated = mobxStores.authStore.isAuthenticated
     let appProps: any = {}
     if (App.getInitialProps) {
         appProps = await App.getInitialProps(appContext)
@@ -82,5 +84,6 @@ MyApp.getInitialProps = async (appContext: Context) => {
         ...appProps,
         initialMobxStores: mobxStores
     }
+
 }
 export default MyApp
