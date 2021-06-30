@@ -18,11 +18,11 @@ const FilterForm: React.FC = () => {
                 <Form.Item
                     name="email"
                 >
-                    <Input placeholder="Email" />
+                    <Input style={{width: '400px'}} placeholder="Email" />
                 </Form.Item>
                 <Form.Item >
                     <Button type="primary" htmlType="submit" >
-                        {'Search'}
+                        {'Tìm kiếm'}
                     </Button>
                 </Form.Item>
             </Form>

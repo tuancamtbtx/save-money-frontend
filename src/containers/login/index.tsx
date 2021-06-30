@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import styled from 'styled-components'
 import { Form, Input, Button } from 'antd'
-import { useStores } from 'src/stores/context'
 import { useObserver } from "mobx-react-lite";
 import redirect from 'src/utils/redirect'
-
+import { MobXProviderContext } from 'mobx-react';
+import Notification from 'src/components/elements/noitication'
 
 const Wrapper = styled.div`
   margin-top: 240px;
@@ -27,16 +27,24 @@ const Wrapper = styled.div`
 `
 
 const LoginContainer: React.FC = () => {
-
+    const {
+        authStore,
+    } = useContext(MobXProviderContext);
     const onFinish = async (values) => {
         await authStore.login(values)
+        Notification({
+            type: 'success',
+            message: 'Login Success',
+            description: 'Login'
+        })
+        localStorage.setItem('username', authStore.me.user_name)
         redirect({}, '/')
     };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
-    const { authStore } = useStores();
-    return useObserver(() => (
+
+    return (
         <Wrapper>
             <Form
                 className='login-form'
@@ -77,6 +85,7 @@ const LoginContainer: React.FC = () => {
 
             </Form>
         </Wrapper >
-    ))
+    )
 }
+
 export default LoginContainer

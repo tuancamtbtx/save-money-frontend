@@ -1,20 +1,18 @@
-import React, { memo, ReactNode, useContext, useState } from 'react';
+import React, { useMemo, memo, ReactNode, useContext, useState, useEffect } from 'react';
 import { LayoutWrapper, ContentWrapper, LogoWrapper } from 'src/components/wrapper'
 import { Layout, Menu } from 'antd';
 import Head from 'next/head'
 import UserDropDown from './user-dropdown'
 const { Header, Sider, Content, Footer } = Layout
-import { useRouter } from 'next/router'
-import { useStores } from 'src/stores/context'
-import { useObserver } from "mobx-react-lite";
-
-import {StoresContext} from 'src/stores/context'
 import Link from 'src/components/link'
+
+
+declare var localStorage: any;
+
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   UserOutlined,
-  ApartmentOutlined,
   OrderedListOutlined,
   SendOutlined,
   AreaChartOutlined,
@@ -29,12 +27,15 @@ type IProps = {
   activeMenuKey?: string,
 }
 const BaseLayout: React.FC<IProps> = memo(({ title, activeMenuKey, children }: IProps) => {
+
   const [collapsed, setCollapsed] = useState(false)
-  const {authStore} = useContext(StoresContext)
-  console.log(authStore)
-  // console.log(authStore.me)
-  console.log(useStores)
-  return useObserver(() =>(
+  // Correct
+  const [username, setUsername] = useState(undefined)
+
+  useEffect(() => {
+    setUsername(localStorage.getItem('username'))
+  }, [])
+  return (
     <LayoutWrapper>
       <Head>
         <title>{title} | Sổ Tiết Kiệm</title>
@@ -62,13 +63,13 @@ const BaseLayout: React.FC<IProps> = memo(({ title, activeMenuKey, children }: I
               <img src='https://cdn.icon-icons.com/icons2/2104/PNG/512/bank_icon_129525.png' />
             </LogoWrapper>
           </div>
-          <UserDropDown username="Tuấn Cám" avatar="https://lh3.googleusercontent.com/ogw/ADGmqu_t6ocQYu86ewBqgpoKp35oKKv8l98N6RpyzL_L=s32-c-mo" />
+          <UserDropDown username={username} avatar="https://pickaface.net/gallery/avatar/unr_demo_181102_1037_17ut.png" />
         </Header>
         <Layout style={{ marginTop: '1px' }}>
           <Sider theme="light" trigger={null} collapsible collapsed={collapsed} style={{ padding: '0px' }}>
             <Menu selectedKeys={[activeMenuKey]} theme="light" mode="inline" >
-            <Menu.ItemGroup key="g2" title="Quản Lí">
-            <Menu.Item key="/report">
+              <Menu.ItemGroup key="g2" title="Quản Lí">
+                <Menu.Item key="/report">
                   <Link path='/report'>
                     <a>
                       <AreaChartOutlined />
@@ -99,9 +100,9 @@ const BaseLayout: React.FC<IProps> = memo(({ title, activeMenuKey, children }: I
                     </a>
                   </Link>
                 </Menu.Item>
-            </Menu.ItemGroup>
+              </Menu.ItemGroup>
               <Menu.ItemGroup key="g1" title="Quản Trị">
-                  
+
                 <Menu.Item key="/users">
                   <Link path='/users'>
                     <a>
@@ -109,15 +110,15 @@ const BaseLayout: React.FC<IProps> = memo(({ title, activeMenuKey, children }: I
                       <span className='nav-text'>Quản Trị Viên</span>
                     </a>
                   </Link>
-                </Menu.Item> 
-                <Menu.Item key="/permissions">
-                  <Link path='/permissions'>
+                </Menu.Item>
+                <Menu.Item key="/customers">
+                  <Link path='/customers'>
                     <a>
                       <SettingOutlined />
                       <span className='nav-text'>Khách Hàng</span>
                     </a>
                   </Link>
-                </Menu.Item> 
+                </Menu.Item>
               </Menu.ItemGroup>
             </Menu>
           </Sider>
@@ -134,6 +135,6 @@ const BaseLayout: React.FC<IProps> = memo(({ title, activeMenuKey, children }: I
         </Layout>
       </Layout>
     </LayoutWrapper>
-  ))
+  )
 })
-export default BaseLayout
+export default (BaseLayout)

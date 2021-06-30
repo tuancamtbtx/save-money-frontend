@@ -10,6 +10,36 @@ interface IProps {
   onFail: () => void
 }
 
+const listTypeSaving: IOptionSelect[] = [
+  {
+    key: '1',
+    value: '1',
+    name: 'Không kỳ hạn'
+
+  },
+  {
+    key: '2',
+    value: '2',
+    name: '3 tháng'
+  }, {
+    key: '3',
+    value: '3',
+    name: '6 tháng'
+  }
+
+]
+const listStatus: IOptionSelect[] = [
+  {
+    key: '1',
+    value: 'Active',
+    name: 'Active'
+  },
+  {
+    key: '2',
+    value: 'InActive',
+    name: 'InActive',
+  }
+]
 const PermissionForm: React.FC<IProps> = ({ onSuccess, onFail, id, isUpdate, initValue }) => {
   const [form] = Form.useForm();
   const onFinish = (values) => {
@@ -21,34 +51,9 @@ const PermissionForm: React.FC<IProps> = ({ onSuccess, onFail, id, isUpdate, ini
     console.log('Failed:', errorInfo);
     onFail()
   };
-  const listType: IOptionSelect[] = [
-    {
-      key: '1',
-      value: 'APP',
-      name: 'APP'
 
-    },
-    {
-      key: '2',
-      value: 'API',
-      name: 'API'
-    }
 
-  ]
-  const listStatus: IOptionSelect[] = [
-    {
-      key: '1',
-      value: 'Active',
-      name: 'Active'
-    },
-    {
-      key: '2',
-      value: 'InActive',
-      name: 'InActive',
-    }
-  ]
   const [status] = useState(listStatus)
-  const [type] = useState(listType)
   return (
     <Form
       form={form}
@@ -59,7 +64,7 @@ const PermissionForm: React.FC<IProps> = ({ onSuccess, onFail, id, isUpdate, ini
       onFinishFailed={onFinishFailed}
     >
       <Form.Item
-        label="Khách hàng"
+        label="Id Khách hàng"
         name="user"
         rules={[
           {
@@ -68,11 +73,8 @@ const PermissionForm: React.FC<IProps> = ({ onSuccess, onFail, id, isUpdate, ini
           },
         ]}
       >
-        <Select
-          defaultValue={isUpdate ? initValue.type : null}
-          placeholder="Chọn khách hàng"
-          list={type}
-        />      </Form.Item>
+        <Input/>
+      </Form.Item>
       <Form.Item
         label="Loại sổ tiết kiệm"
         name="type"
@@ -86,7 +88,7 @@ const PermissionForm: React.FC<IProps> = ({ onSuccess, onFail, id, isUpdate, ini
         <Select
           defaultValue={isUpdate ? initValue.type : null}
           placeholder="Chọn sổ"
-          list={type}
+          list={listTypeSaving}
         />
       </Form.Item>
       <Form.Item

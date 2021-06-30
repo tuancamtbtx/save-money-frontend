@@ -29,9 +29,6 @@ const port: number = parseInt(process.env.PORT) || 3000;
     createRouterPath(router.withdrawal.list);
     createRouterPath(router.send.list);
     createRouterPath(router.report.list);
-    createRouterPath(router.permission.list);
-
-    // createRouterPath(router.permission.list);
     server.all("*", (req: Request, res: Response) => {
       return handle(req, res);
     });

@@ -1,19 +1,20 @@
 import React from 'react';
 import { Card } from 'antd'
-import UserContainer from 'src/containers/users'
+import CustomerContainer from 'src/containers/customer'
 import dynamic from 'next/dynamic';
+
 const AppLayout = dynamic(() => import('src/components/layout'), { ssr: true });
-export default function App() {
+function App() {
     return (
-        <AppLayout title={"Khách hàng"} activeMenuKey="/p">
+        <AppLayout title={"Khách hàng"} activeMenuKey="/customers">
             <Card>
-                <UserContainer />
+                <CustomerContainer />
             </Card>
         </AppLayout>
     )
 }
-
-export async function getServerSideProps({ req }) {
+export async function getServerSideProps({req}) {
     const headers = req ? req.headers : {};
-    return { props: { headers } }
+    return { props: { headers } }   
 }
+export default App

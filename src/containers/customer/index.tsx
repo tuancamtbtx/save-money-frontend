@@ -1,16 +1,80 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'src/utils/axios'
+import React, { useEffect, useState } from 'react'
+import { Table, Avatar, Tag } from 'antd'
+import { IUserInfo } from 'src/types/users'
+import { ContentWrapper, HeaderWrapper } from 'src/components/wrapper'
+import CreateUserContainer from './create'
+import RemoveUser from './remove'
+import UpdateUser from './update'
+import FilterUser from './filter'
+import Text from 'src/components/elements/text'
+import DividerComponent from 'src/components/elements/divider'
+import customerApi from 'src/api/customerApi'
+import { TimeColumn } from 'src/components/table-manager/columns'
 
-const CustomerContainer: React.FC = () => {
-	const [data, setData] = useState([])
-	useEffect(() => {
-		axios.get(' http://dp-smarter-api.tiki.services/revisions/count').then(response => {
-			console.log(response)
-		})
-	});
-	return (
-		<div>
+const columns: any[] = [
+    {
+        title: 'STT',
+        dataIndex: 'id',
+        key: 'id',
+        render: name => {
+            return <Text color="#3498db" isUpper={true} fontWeight={700} content={name} />
+        }
 
-		</div>
-	)
+    },
+    {
+        title: 'Họ và tên',
+        dataIndex: 'full_name',
+        key: 'full_name',
+        render: domain => {
+            return <Text fontWeight={600} content={domain} color='#57606f' />
+        }
+    },
+    {
+        title: 'Địa chỉ',
+        dataIndex: 'address',
+        key: 'address',
+    },
+    {
+        title: 'Ngày tạo',
+        dataIndex: 'created_at',
+        key: 'created_at',
+        render: TimeColumn
+    },
+    {
+        title: 'Action',
+        dataIndex: 'id',
+        key: '',
+        render: id => {
+            return (
+                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                    <UpdateUser />
+                    <DividerComponent type="vertical" />
+                    <RemoveUser />
+                </div>
+            )
+
+        },
+    }
+
+];
+const UserContainer: React.FC = () => {
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        const getList = async ( ) => {
+            let {data} = await customerApi.list()
+            setData(data)
+        }
+        getList()
+    },[]);
+    return (
+        <ContentWrapper>
+            <HeaderWrapper>
+                <h1>Danh Sách Khách Hàng</h1>
+                <CreateUserContainer />
+            </HeaderWrapper>
+            {/* <FilterUser /> */}
+            <Table id='key' columns={columns} dataSource={data} />
+        </ContentWrapper>
+    )
 }
+export default UserContainer

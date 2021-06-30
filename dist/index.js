@@ -82,7 +82,7 @@ var port = parseInt(process.env.PORT) || 3000;
                 createRouterPath(router_1.router.withdrawal.list);
                 createRouterPath(router_1.router.send.list);
                 createRouterPath(router_1.router.report.list);
-                createRouterPath(router_1.router.permission.list);
+                console.log('ahihi');
                 // createRouterPath(router.permission.list);
                 server_1.all("*", function (req, res) {
                     return handle(req, res);

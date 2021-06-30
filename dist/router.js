@@ -37,11 +37,11 @@ exports.router = {
             file: "/report",
         },
     },
-    permission: {
+    customers: {
         list: {
-            href: "/permissions",
-            as: "/permissions",
-            file: "/permission",
+            href: "/customers",
+            as: "/customers",
+            file: "/customers",
         },
     },
 };

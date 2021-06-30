@@ -3,6 +3,9 @@ import React, { ReactNode } from 'react'
 import styled from 'styled-components'
 import { Menu, Dropdown } from 'antd'
 import { LogoutOutlined, DownOutlined, EditOutlined } from '@ant-design/icons'
+import { inject } from 'mobx-react'
+
+
 const Wrapper = styled.a`
   display: flex;
   align-items: center;
@@ -51,3 +54,4 @@ const UserDropDown: React.FC<IUserProps> = ({ username, avatar }: IUserProps) =>
     )
 }
 export default UserDropDown;
+  

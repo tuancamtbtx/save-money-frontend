@@ -1,23 +1,18 @@
-import React from 'react';
-import Head from 'next/head';
+import React from 'react'
+import App from 'next/app'
 import ErrorPage from 'src/components/error'
 import { Provider } from 'mobx-react'
-import { initializeStores } from 'src/stores'
-import { setGlobalAuthToken, setGlobalHeaders } from 'src/utils/axios'
-import { createGlobalStyle } from 'styled-components'
+// import { autorun, toJS } from 'mobx'
+import { setGlobalHeaders, setGlobalAuthToken } from 'src/utils/axios'
 import { getToken } from 'src/utils/auth'
-import App from 'next/app'
-import "src/styles/antd.css";
-import 'src/assets/style.scss'
+import { initializeStores } from 'src/stores'
+import { createGlobalStyle } from 'styled-components'
+
 import color from 'src/theme/color'
 import Color from 'color'
-import type { AppProps, AppContext } from 'next/app'
-import { ServerResponse } from 'http';
-import { StoresContext } from 'src/stores/context'
-interface IProps extends AppProps {
-    initialMobxStores?: any
-}
-
+import "src/styles/antd.css";
+import 'src/assets/style.scss'
+import Router from 'next/router'
 
 const NProgressColor = Color(color.SHAPE.PRIMARY).lighten(0.3).toString()
 
@@ -33,57 +28,74 @@ const GlobalStyle = createGlobalStyle`
     border-left-color: ${NProgressColor};
   }
 `
-interface Context extends AppContext {
-    mobxStores: any,
-    isAuthenticated: boolean,
-    ctx: any,
-    res: ServerResponse
-}
+declare var localStorage: any;
 
-
-const MyApp = ({ Component, pageProps, initialMobxStores }: IProps) => {
-    const isServer: boolean = typeof window === 'undefined'
-    let mobxStores: any = isServer ? initialMobxStores : initializeStores(initialMobxStores)
-    if (pageProps.statusCode) {
-        return <ErrorPage statusCode={pageProps.statusCode} />
-    }
-    return (
-        <Provider {...mobxStores}>
-            <GlobalStyle />
-            <Component {...pageProps} />
-        </Provider>
-    )
-}
-MyApp.getInitialProps = async (appContext: Context) => {
-    const mobxStores = initializeStores()
+class MyApp extends App {
+  // Only uncomment this method if you have blocking data requirements for
+  // every single page in your application. This disables the ability to
+  // perform automatic static optimization, causing every page in your app to
+  // be server-side rendered.
+  static async getInitialProps(appContext) {
+    const mobxStores: any = initializeStores()
     appContext.ctx.mobxStores = mobxStores
-    console.log(appContext.ctx.mobxStores)
+
     const isAuthenticated = mobxStores.authStore.isAuthenticated
-    appContext.ctx.isAuthenticated = isAuthenticated
     if (!process.browser) {
-        const { host, ...headers } = appContext.ctx.req.headers
-        setGlobalHeaders({ headers, origin: host })
+      const { host, ...headers } = appContext.ctx.req.headers
+      setGlobalHeaders({ headers, origin: host })
     }
     if (!process.browser && !isAuthenticated) {
-        const authToken = getToken(appContext.ctx.req)
-        if (authToken) {
-            setGlobalAuthToken(authToken)
-            await mobxStores.authStore.fetchMe(authToken)
-        }
+      const authToken = getToken(appContext.ctx.req)
+      if (authToken) {
+        setGlobalAuthToken(authToken)
+        await mobxStores.authStore.fetchMe(authToken)
+      }
     }
     appContext.ctx.mobxStores = mobxStores
     appContext.ctx.isAuthenticated = mobxStores.authStore.isAuthenticated
     let appProps: any = {}
     if (App.getInitialProps) {
-        appProps = await App.getInitialProps(appContext)
+      appProps = await App.getInitialProps(appContext)
     }
     if (appProps.statusCode && appContext.res) {
-        appContext.res.statusCode = appProps.statusCode
+      appContext.res.statusCode = appProps.statusCode
     }
     return {
-        ...appProps,
-        initialMobxStores: mobxStores
+      ...appProps,
+      initialMobxStores: mobxStores
     }
-
+  }
+  mobxStores: any
+  constructor(props) {
+    super(props)
+    const isServer = typeof window === 'undefined'
+    this.mobxStores = isServer
+      ? props.initialMobxStores
+      : initializeStores(props.initialMobxStores)
+  }
+  componentDidMount() {
+    let { initialMobxStores }: any = this.props
+    if (initialMobxStores) {
+      if (!initialMobxStores.authStore.isAuthenticated) {
+        Router.push("/login");
+      }else{
+        localStorage.setItem('username', initialMobxStores.authStore.me.user_name)  
+      }
+    }
+  }
+  render() {
+    const { Component, pageProps } = this.props
+    if (pageProps.statusCode) {
+      return <ErrorPage statusCode={pageProps.statusCode} />
+    }
+    return (
+      <Provider {...this.mobxStores}>
+        <GlobalStyle />
+        <Component {...pageProps} />
+      </Provider>
+    )
+  }
 }
-export default MyApp
+
+export default (MyApp)
+

@@ -8,60 +8,55 @@ import UpdateUser from './update'
 import FilterUser from './filter'
 import Text from 'src/components/elements/text'
 import DividerComponent from 'src/components/elements/divider'
-const data: IUserInfo[] = [
-    {
-        key: '1',
-        name: 'Nguyễn Văn Tuấn',
-        status: 'Approve',
-        domain: 'tuan.nguyen15',
-    },
-];
+import userApi from 'src/api/userApi'
+import { TimeColumn } from 'src/components/table-manager/columns'
+
 const columns: any[] = [
     {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name',
+        title: 'STT',
+        dataIndex: 'id',
+        key: 'id',
         render: name => {
-            return <Text color="#3498db" isUpper={true} fontWeight={700} content={name} />
+            return <Text color="#3498db"  fontWeight={700} content={name} />
         }
-
     },
     {
-        title: 'Username',
-        dataIndex: 'domain',
-        key: 'domain',
+        title: 'Họ và tên',
+        dataIndex: 'full_name',
+        key: 'full_name',
         render: domain => {
             return <Text fontWeight={600} content={domain} color='#57606f' />
         }
     },
     {
-        title: 'Avatar',
-        dataIndex: 'url_avatar',
-        key: 'url_avatar',
-        render: avatar => {
-            return (
-                <div>
-                    <Avatar shape="square" size={64} />
-                </div>
-            )
-
+        title: 'Email',
+        dataIndex: 'email',
+        key: 'email',
+        render: name => {
+            return <Text  fontWeight={500} content={name} />
         }
     },
     {
-        title: 'Status',
-        dataIndex: 'status',
-        key: 'status',
-        render: status => {
-            if (status === "Approve") {
-                return <Tag color="#1e90ff">{status}</Tag>
-            } else {
-                return <Tag color="#f50">{status}</Tag>
-            }
-
-        },
+        title: 'Username',
+        dataIndex: 'user_name',
+        key: 'user_name',
+        render: domain => {
+            return <Text fontWeight={500} content={domain} color='#57606f' />
+        }
     },
     {
-        title: 'Action',
+        title: 'Ngừòi Tạo',
+        dataIndex: 'created_by',
+        key: 'created_by',
+    },
+    {
+        title: 'Ngày tạo',
+        dataIndex: 'created_at',
+        key: 'created_at',
+        render: TimeColumn
+    },
+    {
+        title: '',
         dataIndex: 'id',
         key: '',
         render: id => {
@@ -78,18 +73,22 @@ const columns: any[] = [
 
 ];
 const UserContainer: React.FC = () => {
-    const [users, setUsers] = useState([]);
+    const [data, setData] = useState([]);
     useEffect(() => {
-        setUsers(data)
-    });
+        const getList = async () => {
+            let { data } = await userApi.list()
+            setData(data)
+        }
+        getList()
+    },[]);
     return (
         <ContentWrapper>
             <HeaderWrapper>
-                <h1>List Users</h1>
+                <h1>Danh Sách Quản Trị Viên</h1>
                 <CreateUserContainer />
             </HeaderWrapper>
             <FilterUser />
-            <Table id='key' columns={columns} dataSource={users} />
+            <Table id='key' columns={columns} dataSource={data} />
         </ContentWrapper>
     )
 }
