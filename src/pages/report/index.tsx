@@ -4,7 +4,7 @@ import ReportContainer from 'src/containers/report'
 import dynamic from 'next/dynamic';
 const AppLayout = dynamic(() => import('src/components/layout'), { ssr: false });
 
-export default function App() {
+const App = () => {
     return (
         <AppLayout title={"Thống kê"} activeMenuKey="/report">
             <Card>
@@ -14,7 +14,5 @@ export default function App() {
     )
 }
 
-export async function getServerSideProps({ req }) {
-    const headers = req ? req.headers : {};
-    return { props: { headers } }
-}
+
+export default (App)

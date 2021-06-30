@@ -1,20 +1,21 @@
 import React from 'react';
 import { Card } from 'antd'
-import PermissionContainer from 'src/containers/saving'
+import SendContainer from 'src/containers/send'
 import dynamic from 'next/dynamic';
 const AppLayout = dynamic(() => import('src/components/layout'), { ssr: false });
 
-export default function App() {
+function App() {
     return (
         <AppLayout title={"Gửi tiền"} activeMenuKey="/send">
             <Card>
-                <PermissionContainer />
+                <SendContainer />
             </Card>
         </AppLayout>
     )
 }
+// export async function getServerSideProps({ req }) {
+//     const headers = req ? req.headers : {};
+//     return { props: { headers } }
+// }
 
-export async function getServerSideProps({ req }) {
-    const headers = req ? req.headers : {};
-    return { props: { headers } }
-}
+export default (App)

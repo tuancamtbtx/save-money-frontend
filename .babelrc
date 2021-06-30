@@ -1,5 +1,12 @@
 {
-  "presets": ["next/babel"],
+  "presets": [[
+    "next/babel",
+    {
+      "transform-runtime": {
+        "corejs": false
+      }
+    }
+  ]],
   "plugins": [
     ["styled-components", { "ssr": true }],
     ["@babel/plugin-proposal-decorators", { "legacy": true }]

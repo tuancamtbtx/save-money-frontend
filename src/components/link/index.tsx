@@ -12,4 +12,5 @@ const Link: React.FC<IProps> = ({ path, children }) => {
     </div>
   )
 }
+
 export default Link;

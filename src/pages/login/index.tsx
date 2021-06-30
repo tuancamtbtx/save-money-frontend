@@ -9,7 +9,3 @@ export default function App() {
     )
 }
 
-export async function getServerSideProps({ req }) {
-    const headers = req ? req.headers : {};
-    return { props: { headers } }
-}
