@@ -76,8 +76,8 @@ const PermissionForm: React.FC<IProps> = ({ onSuccess, onFail, id, isUpdate, ini
         <Input/>
       </Form.Item>
       <Form.Item
-        label="Khách hàng"
-        name="user"
+        label="CMND(CCCD) Khách hàng"
+        name="id_card"
         rules={[
           {
             required: true,

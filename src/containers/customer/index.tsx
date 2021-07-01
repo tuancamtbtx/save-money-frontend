@@ -14,10 +14,10 @@ import { TimeColumn } from 'src/components/table-manager/columns'
 const columns: any[] = [
     {
         title: 'STT',
-        dataIndex: 'id',
-        key: 'id',
+        dataIndex: 'no',
+        key: 'no',
         render: name => {
-            return <Text color="#3498db" isUpper={true} fontWeight={700} content={name} />
+            return <Text color="#3498db"  fontWeight={700} content={name} />
         }
 
     },
@@ -33,6 +33,17 @@ const columns: any[] = [
         title: 'Địa chỉ',
         dataIndex: 'address',
         key: 'address',
+    },
+    {
+        title: 'CMND',
+        dataIndex: 'code',
+        key: 'code',
+    },
+    {
+        title: 'Ngày Cấp',
+        dataIndex: 'provided_at',
+        key: 'provided_at',
+        render: TimeColumn
     },
     {
         title: 'Ngày tạo',
@@ -62,7 +73,15 @@ const UserContainer: React.FC = () => {
     useEffect(() => {
         const getList = async ( ) => {
             let {data} = await customerApi.list()
-            setData(data)
+            let newData = data.map((e,index) => {
+                return {
+                    no: index +1,
+                    code: e.id_card.code,
+                    provided_at: e.id_card.providedAt,
+                    ...e,
+                }
+            })
+            setData(newData)
         }
         getList()
     },[]);

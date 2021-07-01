@@ -41,6 +41,13 @@ export const router: any = {
       file: "/customers",
     },
   },
+  rule: {
+    list: {
+      href: "/rules",
+      as: "/rules",
+      file: "/rules",
+    },
+  },
 };
 
 export default router;

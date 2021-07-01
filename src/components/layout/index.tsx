@@ -17,7 +17,8 @@ import {
   SendOutlined,
   AreaChartOutlined,
   GiftOutlined,
-  SettingOutlined
+  SettingOutlined,
+  StrikethroughOutlined
 }
   from '@ant-design/icons'
 
@@ -92,7 +93,8 @@ const BaseLayout: React.FC<IProps> = memo(({ title, activeMenuKey, children }: I
                       <span className='nav-text'>Rút Tiền</span>
                     </a>
                   </Link>
-                </Menu.Item>  <Menu.Item key="/send">
+                </Menu.Item>  
+                <Menu.Item key="/send">
                   <Link path='/send'>
                     <a>
                       <SendOutlined />
@@ -100,7 +102,16 @@ const BaseLayout: React.FC<IProps> = memo(({ title, activeMenuKey, children }: I
                     </a>
                   </Link>
                 </Menu.Item>
+                <Menu.Item key="/rules">
+                  <Link path='/rules'>
+                    <a>
+                      <StrikethroughOutlined />
+                      <span className='nav-text'>Qui Định</span>
+                    </a>
+                  </Link>
+                </Menu.Item>
               </Menu.ItemGroup>
+              
               <Menu.ItemGroup key="g1" title="Quản Trị">
 
                 <Menu.Item key="/users">

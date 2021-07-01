@@ -16,16 +16,16 @@ const time: string = moment().format('YYYY-MM-DD HH:mm:ss');
 const columns: any[] = [
     {
         title: 'Mã Sổ',
-        dataIndex: 'key',
-        key: 'key',
+        dataIndex: 'saving_book_code',
+        key: 'saving_book_code',
         render: name => {
             return <Text color="#3498db" isUpper={false} fontWeight={700} content={name} />
         }
     },
     {
         title: 'Khách Hàng',
-        dataIndex: 'customer',
-        key: 'customer',
+        dataIndex: 'customer_name',
+        key: 'customer_name',
         render: name => {
             return <Text color="black" isUpper={false} fontWeight={700} content={name} />
         }
@@ -38,6 +38,11 @@ const columns: any[] = [
             return <NumberFormat thousandSeparator={true} prefix={'VND '} value={name} displayType={'text'} />
 
         }
+    },
+	{
+        title: 'CMND',
+        dataIndex: 'customer_code',
+        key: 'customer_code',
     },
     {
         title: 'Ngừòi Tạo',

@@ -15,9 +15,14 @@ import savingBookApi from 'src/api/savingBookApi'
 const time: string = moment().format('YYYY-MM-DD HH:mm:ss');
 const columns: any[] = [
     {
+        title: 'STT',
+        dataIndex: 'no',
+        key: 'no',
+    },
+    {
         title: 'Mã Sổ',
-        dataIndex: 'id',
-        key: 'id',
+        dataIndex: 'code',
+        key: 'code',
         render: name => {
             return <Text color="#3498db" isUpper={false} fontWeight={700} content={name} />
         },
@@ -46,6 +51,24 @@ const columns: any[] = [
             } else  {
                 return <Tag color="#2ecc71">UNKNOWN</Tag>
             }
+        },
+        width: 150,
+    },
+    {
+        title: 'Lãi xuất(%)',
+        dataIndex: 'interest_rate',
+        key: 'interest_rate',
+    },
+    {
+        title: 'Tình Trạng',
+        dataIndex: 'status',
+        key: 'status',
+        render: status => {
+            if (status === 1) {
+                return <Tag color="#2ecc71">MỞ</Tag>
+            } else if (status === 2) {
+                return <Tag color="#e74c3c">ĐÓNG</Tag>
+            } 
         },
         width: 150,
     },
@@ -96,7 +119,13 @@ const SavingContainer: React.FC = () => {
     useEffect(() => {
         const getList = async () => {
             let { data } = await savingBookApi.list()
-            setData(data)
+            let newData = data.map((e,index)=> {
+                return {
+                    no: index +1,
+                    ...e
+                }
+            })
+            setData(newData)
         }
         getList()
     },[]);
@@ -107,7 +136,7 @@ const SavingContainer: React.FC = () => {
                 <Create />
             </HeaderWrapper>
             <FilterForm />
-            <Table id='key' columns={columns} dataSource={data} />
+            <Table scroll={{x:2000}} id='key' columns={columns} dataSource={data} />
         </ContentWrapper>
     )
 }

@@ -76,7 +76,7 @@ const PermissionForm: React.FC<IProps> = ({ onSuccess, onFail, id, isUpdate, ini
         <Input/>
       </Form.Item>
       <Form.Item
-        label="Khách hàng"
+        label="CMND Khách hàng"
         name="user"
         rules={[
           {

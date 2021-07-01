@@ -9,7 +9,8 @@ export const getMainApi = () => {
 	  users: c('/api/v1/users'),
 	  receipts: c('/api/v1/receipts'),
 	  savingBook: c('/api/v1/saving-books'),
-	  payslips: c('/api/v1/payslips')
+	  payslips: c('/api/v1/payslips'),
+	  rule: c('/api/v1/rules')
 	}
   }
   

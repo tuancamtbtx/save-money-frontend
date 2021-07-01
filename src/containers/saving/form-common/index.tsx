@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Form, Input, InputNumber } from 'antd'
 import { IOptionSelect } from 'src/types/shared'
 import Select from 'src/components/elements/select'
+import savingBookApi from 'src/api/savingBookApi'
+import ruleApi from 'src/api/ruleApi'
 interface IProps {
   id: string,
   isUpdate?: boolean,
@@ -15,7 +17,6 @@ const listTypeSaving: IOptionSelect[] = [
     key: '1',
     value: '1',
     name: 'Không kỳ hạn'
-
   },
   {
     key: '2',
@@ -42,20 +43,40 @@ const listStatus: IOptionSelect[] = [
 ]
 const PermissionForm: React.FC<IProps> = ({ onSuccess, onFail, id, isUpdate, initValue }) => {
   const [form] = Form.useForm();
-  const onFinish = (values) => {
-    console.log('Success:', values);
-    form.resetFields();
-    onSuccess()
+  const onFinish = async (values) => {
+    let { data, error } = await savingBookApi.save(values);
+    if (error) {
+      onFail()
+    } else {
+      form.resetFields();
+      onSuccess()
+    }
   };
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
     onFail()
   };
+  const [isLoaded, setLoaded] = useState(false)
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const getList = async () => {
+      let { data } = await ruleApi.list()
+      let newData = data.map((e, index) => {
+        return {
+          key: e.id,
+          value: e.id,
+          name: e.name
+        }
+      })
+      setData(newData)
+      setLoaded(true)
+    }
+    getList()
+  }, []);
 
-
-  const [status] = useState(listStatus)
   return (
-    <Form
+    <div>
+      {isLoaded && <Form
       form={form}
       initialValues={initValue}
       id={id}
@@ -64,8 +85,8 @@ const PermissionForm: React.FC<IProps> = ({ onSuccess, onFail, id, isUpdate, ini
       onFinishFailed={onFinishFailed}
     >
       <Form.Item
-        label="Id Khách hàng"
-        name="user"
+        label="CMND Khách hàng"
+        name="id_card"
         rules={[
           {
             required: true,
@@ -73,7 +94,7 @@ const PermissionForm: React.FC<IProps> = ({ onSuccess, onFail, id, isUpdate, ini
           },
         ]}
       >
-        <Input/>
+        <Input />
       </Form.Item>
       <Form.Item
         label="Loại sổ tiết kiệm"
@@ -88,12 +109,12 @@ const PermissionForm: React.FC<IProps> = ({ onSuccess, onFail, id, isUpdate, ini
         <Select
           defaultValue={isUpdate ? initValue.type : null}
           placeholder="Chọn sổ"
-          list={listTypeSaving}
+          list={data}
         />
       </Form.Item>
       <Form.Item
         label="Số tiền"
-        name="money"
+        name="amount"
         rules={[
           {
             required: true,
@@ -104,28 +125,12 @@ const PermissionForm: React.FC<IProps> = ({ onSuccess, onFail, id, isUpdate, ini
         <InputNumber
           style={{
             width: 200,
-
           }}
         />
       </Form.Item>
-      <Form.Item
-        label="Status"
-        name="status"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your status!',
-          },
-        ]}
-      >
-        <Select
-          defaultValue={isUpdate ? initValue.status : null}
-          placeholder="Select status"
-          list={status}
-        />
-      </Form.Item>
-    </Form>
-
+    </Form>}
+    </div>
+    
   )
 }
 export default PermissionForm
