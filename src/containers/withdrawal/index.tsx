@@ -31,9 +31,9 @@ const columns: any[] = [
         }
     },
     {
-        title: 'Số Tiền',
-        dataIndex: 'amount',
-        key: 'amount',
+        title: 'Ghi nợ', 
+        dataIndex: 'debit_money',
+        key: 'debit_money',
         render: name => {
             return <NumberFormat thousandSeparator={true} prefix={'VND '} value={name} displayType={'text'} />
 
@@ -86,7 +86,7 @@ const SavingContainer: React.FC = () => {
                 <h1>Danh Sách Rút Tiền</h1>
                 <Create />
             </HeaderWrapper>
-            <FilterForm />
+            {/* <FilterForm /> */}
             <Table id='key' columns={columns} dataSource={data} />
         </ContentWrapper>
     )

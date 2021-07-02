@@ -20,15 +20,15 @@ const CreateUserContainer: React.FC = () => {
     setVisible(false)
     Notification({
       type: 'success',
-      message: 'Create Success',
-      description: 'Permission'
+      message: 'Tạo Thành Công',
+      description: ' Rút tiền'
     })
   }
   const onFail = () => {
     Notification({
       type: 'error',
-      message: 'Create Error',
-      description: 'Permission'
+      message: 'Tạo Lỗi',
+      description: ' Rút tiền'
     })
   }
 
@@ -39,13 +39,13 @@ const CreateUserContainer: React.FC = () => {
         showModal={showModal}
         footer={[
           <Button form="createPermssionForm" key="submit" htmlType="submit">
-            {'Submit'}
+            {'Tạo Mới'}
           </Button>
         ]}
         handleOk={handleOk}
         handleCancel={handleCancel}
         type='primary'
-        title="Create New" text="Create"
+        title="Tạo Mới" text="Tạo Mới"
         icon={<PlusCircleOutlined style={{ color: '#fff' }} />}
       >
         <PermissionFrom

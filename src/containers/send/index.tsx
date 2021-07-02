@@ -58,12 +58,11 @@ const columns: any[] = [
         }
     },
     {
-        title: 'Số Tiền',
-        dataIndex: 'amount',
-        key: 'amount',
+        title: 'Ghi Có',
+        dataIndex: 'credit_money',
+        key: 'credit_money',
         render: name => {
             return <NumberFormat thousandSeparator={true} prefix={'VND '} value={name} displayType={'text'} />
-
         }
     },
 	{
@@ -113,7 +112,7 @@ const SavingContainer: React.FC = () => {
                 <h1>Danh Sách Gửi Tiền</h1>
                 <Create />
             </HeaderWrapper>
-            <FilterForm />
+            {/* <FilterForm /> */}
             <Table id='key' columns={columns} dataSource={data} />
         </ContentWrapper>
     )

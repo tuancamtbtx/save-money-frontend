@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Form, Input, InputNumber } from 'antd'
-import { IOptionSelect } from 'src/types/shared'
-import Select from 'src/components/elements/select'
+import receiptApi from 'src/api/receiptApi'
 interface IProps {
   id: string,
   isUpdate?: boolean,
@@ -10,50 +9,23 @@ interface IProps {
   onFail: () => void
 }
 
-const listTypeSaving: IOptionSelect[] = [
-  {
-    key: '1',
-    value: '1',
-    name: 'Không kỳ hạn'
 
-  },
-  {
-    key: '2',
-    value: '2',
-    name: '3 tháng'
-  }, {
-    key: '3',
-    value: '3',
-    name: '6 tháng'
-  }
-
-]
-const listStatus: IOptionSelect[] = [
-  {
-    key: '1',
-    value: 'Active',
-    name: 'Active'
-  },
-  {
-    key: '2',
-    value: 'InActive',
-    name: 'InActive',
-  }
-]
 const PermissionForm: React.FC<IProps> = ({ onSuccess, onFail, id, isUpdate, initValue }) => {
   const [form] = Form.useForm();
-  const onFinish = (values) => {
-    console.log('Success:', values);
-    form.resetFields();
-    onSuccess()
+  const onFinish = async (values) => {
+    let { data, error } = await receiptApi.save(values)
+    if (error) {
+      onFail()
+    } else {
+      form.resetFields();
+      onSuccess()
+    }
   };
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
     onFail()
   };
 
-
-  const [status] = useState(listStatus)
   return (
     <Form
       form={form}
@@ -65,7 +37,7 @@ const PermissionForm: React.FC<IProps> = ({ onSuccess, onFail, id, isUpdate, ini
     >
       <Form.Item
         label="Mã Sổ"
-        name="code"
+        name="saving_book_code"
         rules={[
           {
             required: true,
@@ -73,11 +45,11 @@ const PermissionForm: React.FC<IProps> = ({ onSuccess, onFail, id, isUpdate, ini
           },
         ]}
       >
-        <Input/>
+        <Input />
       </Form.Item>
       <Form.Item
         label="CMND Khách hàng"
-        name="user"
+        name="customer_code"
         rules={[
           {
             required: true,
@@ -85,11 +57,11 @@ const PermissionForm: React.FC<IProps> = ({ onSuccess, onFail, id, isUpdate, ini
           },
         ]}
       >
-        <Input/>
+        <Input />
       </Form.Item>
       <Form.Item
         label="Số tiền"
-        name="money"
+        name="credit_money"
         rules={[
           {
             required: true,

@@ -39,13 +39,13 @@ const CreateUserContainer: React.FC = () => {
                 footer=
                 {[
                     <Button type='primary' form="createForm" key="submit" htmlType="submit">
-                        {'Create'}
+                        {'Tạo'}
                     </Button>
                 ]}
                 handleOk={handleOk}
                 handleCancel={handleCancel}
                 icon={<PlusCircleOutlined style={{ color: '#fff' }} />}
-                type="primary" title="Create New" text="Create New">
+                type="primary" title="Tạo Mới" text="Tạo Mới">
                 <UserFrom
                     onSuccess={onSuccess}
                     onFail={onFail}

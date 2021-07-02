@@ -1,14 +1,9 @@
 import React, { useState } from 'react'
-import { Form, Input } from 'antd'
-import { IOptionSelect } from 'src/types/shared'
-import Select from 'src/components/elements/select'
-import { DatePicker, Space } from 'antd';
-import moment from 'moment'
-import customerApi from 'src/api/customerApi'
+import { Form, Input, InputNumber } from 'antd'
 interface IProps {
     id: string,
     isUpdate?: boolean,
-    onSuccess: () => void,
+    onSuccess: (values) => Promise<boolean>,
     onFail: () => void
 }
 const dateFormat: string = 'YYYY/MM/DD';
@@ -17,41 +12,17 @@ const UserForm: React.FC<IProps> = ({ id, onSuccess, onFail }) => {
     const [form] = Form.useForm();
 
     const onFinish = async (values) => {
-        values['provided_at'] = moment(values.provided_at).unix()
-        console.log('Success:', values);
-        let body = {
-            fullName: values.fullName,
-            idCard: {
-                code: values.cmnd,
-                providedAt: values.provided_at * 1000
-            },
-            address: values.address
+        let check = await onSuccess(values)
+        if (check) {
+            form.resetFields();
         }
-        let { data, error } = await customerApi.save(body);
-        if(error){
-            onFail()
-        }
-        onSuccess()
-        form.resetFields();
     };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
         onFail()
     };
 
-    const listStatus: IOptionSelect[] = [
-        {
-            key: '1',
-            value: 'APPROVE',
-            name: 'APPROVE'
-        },
-        {
-            key: '2',
-            value: 'REJECTED',
-            name: 'REJECTED',
-        }
-    ]
-    const [status] = useState(listStatus)
+
     return (
         <Form
             form={form}
@@ -61,32 +32,37 @@ const UserForm: React.FC<IProps> = ({ id, onSuccess, onFail }) => {
             onFinishFailed={onFinishFailed}
         >
             <Form.Item
-                label="Họ và tên"
-                name="fullName"
+                label="Tên"
+                name="name"
                 rules={[
                     {
                         required: true,
-                        message: 'Please input your fullname!',
+                        message: 'Please input your name!',
                     },
                 ]}
             >
-                <Input />
+                <Input
+                    style={{ width: '500px' }} />
             </Form.Item>
             <Form.Item
-                label=" Số CMND"
-                name="cmnd"
+                label=" Tiền Gửi tối thiểu (VND)"
+                name="min_amount"
                 rules={[
                     {
                         required: true,
-                        message: 'Please upload your Avatar!',
+                        message: 'Please upload your Tiền Gửi tối thiểu!',
                     },
                 ]}
             >
-                <Input />
+                <InputNumber
+                    style={{ width: '500px' }}
+                    min={0}
+                    max={10000000000000000}
+                />
             </Form.Item>
             <Form.Item
-                label="Ngày cấp CMND"
-                name="provided_at"
+                label="Lãi xuất(%)"
+                name="interest_rate"
                 rules={[
                     {
                         required: true,
@@ -94,11 +70,16 @@ const UserForm: React.FC<IProps> = ({ id, onSuccess, onFail }) => {
                     },
                 ]}
             >
-                <DatePicker defaultValue={moment('2015/01/01', dateFormat)} format={dateFormat} />
+                <InputNumber
+                    style={{ width: '500px' }}
+                    min={0}
+                    max={100}
+                />
             </Form.Item>
             <Form.Item
-                label="Địa chỉ"
-                name="address"
+
+                label="Kỳ hạn (Tháng)"
+                name="period"
                 rules={[
                     {
                         required: true,
@@ -106,7 +87,9 @@ const UserForm: React.FC<IProps> = ({ id, onSuccess, onFail }) => {
                     },
                 ]}
             >
-                <Input />
+                <InputNumber
+                    style={{ width: '500px' }}
+                />
             </Form.Item>
         </Form>
 

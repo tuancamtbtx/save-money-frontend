@@ -135,7 +135,7 @@ const SavingContainer: React.FC = () => {
                 <h1>Danh Sách Sổ Tiết Kiệm</h1>
                 <Create />
             </HeaderWrapper>
-            <FilterForm />
+            {/* <FilterForm /> */}
             <Table scroll={{x:2000}} id='key' columns={columns} dataSource={data} />
         </ContentWrapper>
     )

@@ -4,6 +4,8 @@ import Modal from 'src/components/elements/modal-footer'
 import { PlusCircleOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 import Notification from 'src/components/elements/noitication'
+import ruleApi from 'src/api/ruleApi'
+
 const CreateUserContainer: React.FC = () => {
 
     const [visible, setVisible] = useState(false)
@@ -16,19 +18,26 @@ const CreateUserContainer: React.FC = () => {
     const handleOk = () => {
         setVisible(false)
     }
-    const onSuccess = (): void => {
-        setVisible(false)
-        Notification({
-            type: 'success',
-            message: 'Tạo thành công',
-            description:'Khách hàng'
-        })
+    const onSuccess = async (values: any): Promise<boolean> => {
+        let { data, error } = await ruleApi.save(values);
+        if (error) {
+            onFail()
+            return false
+        } else {
+            setVisible(false)
+            Notification({
+                type: 'success',
+                message: 'Tạo thành công',
+                description: 'Gói tiết kiệm'
+            })
+            return true
+        }
     }
     const onFail = () => {
         Notification({
             type: 'error',
             message: 'Tạo thất bại',
-            description: 'Khách hàng'
+            description: 'Gói tiết kiệm'
         })
     }
     return (
@@ -39,18 +48,21 @@ const CreateUserContainer: React.FC = () => {
                 footer=
                 {[
                     <Button type='primary' form="createForm" key="submit" htmlType="submit">
-                        {'Create'}
+                        {'Tạo'}
                     </Button>
                 ]}
                 handleOk={handleOk}
                 handleCancel={handleCancel}
                 icon={<PlusCircleOutlined style={{ color: '#fff' }} />}
-                type="primary" title="Create New" text="Create New">
-                <UserFrom
-                    onSuccess={onSuccess}
-                    onFail={onFail}
-                    id={'createForm'}
-                />
+                type="primary" title="Tạo Mới" text="Tạo Mới">
+                <div style={{ textAlign: 'center' }}>
+                    <UserFrom
+                        onSuccess={onSuccess}
+                        onFail={onFail}
+                        id={'createForm'}
+                    />
+                </div>
+
             </Modal>
         </div>
     )

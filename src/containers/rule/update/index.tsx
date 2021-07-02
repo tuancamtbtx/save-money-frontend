@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import UserFrom from '../form-common'
 import Modal from 'src/components/elements/modal-footer'
-import { PlusCircleOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 import Notification from 'src/components/elements/noitication'
 const CreateUserContainer: React.FC = () => {
@@ -20,15 +19,15 @@ const CreateUserContainer: React.FC = () => {
         setVisible(false)
         Notification({
             type: 'success',
-            message: 'Tạo mới Thành Công',
-            description: 'Quản Trị Viên'
+            message: 'Update Success',
+            description: 'Permission'
         })
     }
     const onFail = () => {
         Notification({
             type: 'error',
-            message: 'Tạo Mới Thất Bại',
-            description: 'Quản Trị Viên'
+            message: 'Update Error',
+            description: 'Permission'
         })
     }
     return (
@@ -38,19 +37,18 @@ const CreateUserContainer: React.FC = () => {
                 showModal={showModal}
                 footer=
                 {[
-                    <Button type='primary' form="createForm" key="submit" htmlType="submit">
-                        {'Tạo'}
+                    <Button type='primary' form="updateForm" key="submit" htmlType="submit">
+                        {'Update'}
                     </Button>
                 ]}
                 handleOk={handleOk}
                 handleCancel={handleCancel}
-                icon={<PlusCircleOutlined style={{ color: '#fff' }} />}
-                type="primary" title="Tạo Mới" text="Tạo Mới">
+                type='text'
+                title="Update" text="Update" >
                 <UserFrom
                     onSuccess={onSuccess}
                     onFail={onFail}
-                    id={'createForm'}
-                />
+                    id={'updateForm'} />
             </Modal>
         </div>
     )

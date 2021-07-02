@@ -28,11 +28,13 @@ const UserForm: React.FC<IProps> = ({ id, onSuccess, onFail }) => {
             address: values.address
         }
         let { data, error } = await customerApi.save(body);
-        if(error){
+        if (error) {
             onFail()
+        } else {
+            onSuccess()
+            form.resetFields();
         }
-        onSuccess()
-        form.resetFields();
+
     };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);

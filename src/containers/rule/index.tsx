@@ -4,6 +4,11 @@ import {Table }from 'antd'
 import ruleApi from 'src/api/ruleApi'
 import { TimeColumn } from 'src/components/table-manager/columns'
 import Text from 'src/components/elements/text'
+import DividerComponent from 'src/components/elements/divider'
+import Create from './create'
+import Update from './update'
+import Remove from './remove'
+import NumberFormat from 'react-number-format';
 
 const columns: any[] = [
     {
@@ -11,7 +16,7 @@ const columns: any[] = [
         dataIndex: 'no',
         key: 'no',
         render: name => {
-            return <Text color="#3498db"  fontWeight={700} content={name} />
+            return <Text color="#3498db"  fontWeight={500} content={name} />
         }
 
     },
@@ -20,13 +25,16 @@ const columns: any[] = [
         dataIndex: 'name',
         key: 'name',
         render: domain => {
-            return <Text fontWeight={600} content={domain} color='#57606f' />
+            return <Text fontWeight={700} content={domain} color='#2c3e50' />
         }
     },
     {
         title: 'Tiền Gửi tối thiểu',
         dataIndex: 'min_amount',
         key: 'min_amount',
+		render: money => {
+            return <NumberFormat thousandSeparator={true} prefix={'VND '} value={money} displayType={'text'} />
+        }
     },
     {
         title: 'Lãi xuất(%)',
@@ -46,9 +54,7 @@ const columns: any[] = [
         render: id => {
             return (
                 <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                    {/* <UpdateUser />
-                    <DividerComponent type="vertical" />
-                    <RemoveUser /> */}
+                    <Update />
                 </div>
             )
 
@@ -76,6 +82,7 @@ const RuleContainer: React.FC = () => {
 		<ContentWrapper>
 			<HeaderWrapper>
 				<h1>Danh Sách Qui Định</h1>
+				<Create />
 			</HeaderWrapper>
 			<Table id='key' columns={columns} dataSource={data} />
 
