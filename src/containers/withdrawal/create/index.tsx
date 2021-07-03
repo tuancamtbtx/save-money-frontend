@@ -24,10 +24,10 @@ const CreateUserContainer: React.FC = () => {
       description: ' Rút tiền'
     })
   }
-  const onFail = () => {
+  const onFail = (message:string):void => {
     Notification({
       type: 'error',
-      message: 'Tạo Lỗi',
+      message: 'Tạo Lỗi - ' + message,
       description: ' Rút tiền'
     })
   }
