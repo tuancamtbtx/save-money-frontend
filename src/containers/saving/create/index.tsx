@@ -21,14 +21,14 @@ const CreateUserContainer: React.FC = () => {
     Notification({
       type: 'success',
       message: 'Tạo Thành Công',
-      description: 'Saving Book'
+      description: 'Sổ tiết kiệm' 
     })
   }
-  const onFail = () => {
+  const onFail = (message:string) => {
     Notification({
       type: 'error',
-      message: 'Tạo Lỗi',
-      description: 'Saving Book'
+      message: 'Tạo Lỗi - '+ message,
+      description: 'Sổ tiết kiệm'
     })
   }
 

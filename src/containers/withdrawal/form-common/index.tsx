@@ -7,17 +7,16 @@ interface IProps {
   isUpdate?: boolean,
   initValue?: any,
   onSuccess: () => void,
-  onFail: () => void
+  onFail: (message:string) => void
 }
 
 
 const PermissionForm: React.FC<IProps> = ({ onSuccess, onFail, id, isUpdate, initValue }) => {
   const [form] = Form.useForm();
   const onFinish = async (values) => {
-    console.log('Success:', values);
     let { data, error } = await payslipsApi.save(values)
     if (error) {
-      onFail()
+      onFail(data.message)
     } else {
       form.resetFields();
       onSuccess()
@@ -25,7 +24,7 @@ const PermissionForm: React.FC<IProps> = ({ onSuccess, onFail, id, isUpdate, ini
   };
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
-    onFail()
+    onFail("thiếu dữ liệu")
   };
   return (
     <Form

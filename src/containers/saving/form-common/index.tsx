@@ -12,35 +12,6 @@ interface IProps {
   onFail: () => void
 }
 
-const listTypeSaving: IOptionSelect[] = [
-  {
-    key: '1',
-    value: '1',
-    name: 'Không kỳ hạn'
-  },
-  {
-    key: '2',
-    value: '2',
-    name: '3 tháng'
-  }, {
-    key: '3',
-    value: '3',
-    name: '6 tháng'
-  }
-
-]
-const listStatus: IOptionSelect[] = [
-  {
-    key: '1',
-    value: 'Active',
-    name: 'Active'
-  },
-  {
-    key: '2',
-    value: 'InActive',
-    name: 'InActive',
-  }
-]
 const PermissionForm: React.FC<IProps> = ({ onSuccess, onFail, id, isUpdate, initValue }) => {
   const [form] = Form.useForm();
   const onFinish = async (values) => {
